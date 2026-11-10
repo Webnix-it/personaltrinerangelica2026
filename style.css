@@ -158,22 +158,56 @@ section[id], footer[id] { scroll-margin-top: 96px; }
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
 
 /* ============ HERO ============ */
-.af-hero { padding-top: 140px; padding-bottom: 80px; }
-.af-hero .hero-grid { align-items: center; }
-.af-hero h1 { max-width: 640px; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 20px; }
-.af-hero .lead { color: var(--sage); font-size: 1.1rem; margin-bottom: 16px; }
-/* Bottoni hero: fuori dalla griglia, centrati sulla pagina sotto titolo, testi e targhette */
-.hero-actions {
-  display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 16px;
-  width: 90%; max-width: var(--container-width); margin: 44px auto 0; padding: 0 16px;
+.af-hero {
+  padding-top: 150px; padding-bottom: 64px;
+  background: radial-gradient(ellipse at 78% 28%, #303a32 0, #202622 32%, var(--carbon) 68%);
 }
-.hero-actions .btn { padding: 16px 28px; font-size: 0.95rem; text-align: center; }
 
-/* OFFERTA A TEMPO LIMITATO - badge su una riga in alto a destra della card "0 €" */
-.af-hero .hero-stats .offer-badge {
-  position: absolute; top: 13px; right: 14px; pointer-events: none; white-space: nowrap;
-  color: var(--lime); font-family: var(--font-title); font-weight: 600; font-size: 0.52rem;
-  line-height: 1.2; letter-spacing: 0.6px; text-transform: uppercase;
+/* Riga introduttiva sopra al titolo */
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-body); font-weight: 800; font-size: 0.7rem;
+  letter-spacing: 0.17em; text-transform: uppercase; color: var(--lime);
+}
+.hero-eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--lime); }
+
+.af-hero h1 {
+  max-width: 780px; margin: 22px 0 30px;
+  font-family: var(--font-body); font-weight: 900;
+  font-size: clamp(2.4rem, 5.25vw, 4.5rem); line-height: 0.99; letter-spacing: -0.05em;
+}
+.af-hero h1 em { color: var(--lime); font-style: italic; }
+
+.af-hero .lead { color: #e1e4df; font-size: clamp(0.95rem, 1.25vw, 1.12rem); line-height: 1.6; max-width: 620px; margin-bottom: 18px; }
+.af-hero .lead:last-of-type { margin-bottom: 0; }
+
+/* Targhette del percorso: striscia unica con quattro colonne divise da una linea */
+.af-hero .hero-stats {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 60px; padding: 24px 12px;
+  border: 1px solid #626760; border-radius: 28px; background: rgba(23, 26, 24, 0.9);
+}
+.af-hero .hero-stats li {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; min-height: 120px; padding: 0 12px; text-align: center;
+}
+.af-hero .hero-stats li + li { border-left: 1px solid #626760; }
+.af-hero .hero-stats .stat-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: auto; height: auto; border-radius: 0; background: none;
+  font-size: 2.6rem; line-height: 1; color: var(--lime); margin-bottom: 6px;
+}
+.af-hero .hero-stats strong { color: var(--ivory); font-family: var(--font-body); font-weight: 900; font-size: 1.8rem; line-height: 1; letter-spacing: -0.02em; }
+.af-hero .hero-stats .stat-label { font-size: 0.95rem; line-height: 1.35; color: #f0f0ed; }
+
+/* OFFERTA A TEMPO LIMITATO - targhetta appoggiata sul bordo in alto a destra della colonna "0 €" */
+.af-hero .hero-stats li.has-offer { position: relative; }
+.af-hero .offer-badge {
+  position: absolute; top: 0; right: 24px; transform: translateY(-70%);
+  display: inline-flex; align-items: center; padding: 5px 14px; border-radius: 30px;
+  background: var(--lime); color: var(--carbon); pointer-events: none; white-space: nowrap;
+  font-family: var(--font-body); font-weight: 800; font-size: 0.6rem; line-height: 1.1;
+  letter-spacing: 0; text-transform: none;
   animation: blink-offer 3s ease-in-out infinite;
 }
 /* Lampeggio minimale: solo opacità, nessuno zoom */
@@ -182,29 +216,17 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   50% { opacity: 0.25; }
 }
 
-/* Targhette del percorso: griglia di badge con icona, valore e descrizione */
-.af-hero .hero-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 0; }
-.af-hero .hero-stats li {
-  position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
-  padding: 20px 20px 18px; border-radius: 18px; color: var(--sage); overflow: hidden;
-  border: 1px solid var(--military);
-  background: linear-gradient(155deg, rgba(48, 58, 50, 0.75) 0%, rgba(23, 26, 24, 0.75) 100%);
-  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+/* CTA centrata sotto le targhette */
+.hero-cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; width: 90%; max-width: var(--container-width); margin: 30px auto 0; padding: 0 16px; }
+.af-hero .btn-hero { padding: 17px 34px; font-size: 1.02rem; font-weight: 800; border-radius: 50px; gap: 24px; text-align: center; }
+.af-hero .btn-hero .btn-arrow { font-size: 1.5rem; line-height: 1; }
+.hero-inline-link { max-width: 620px; margin-top: 8px; text-align: right; }
+.af-hero .hero-text-link {
+  display: inline-flex; align-items: center; gap: 4px; color: var(--sage);
+  font-size: 0.82rem; text-decoration: underline; text-underline-offset: 4px;
 }
-.af-hero .hero-stats li::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
-  background: radial-gradient(circle at 88% 8%, rgba(183, 243, 74, 0.18) 0%, transparent 62%);
-  opacity: 0; transition: opacity var(--transition);
-}
-.af-hero .hero-stats li:hover { transform: translateY(-5px); border-color: var(--lime); box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4); }
-.af-hero .hero-stats li:hover::after { opacity: 1; }
-.af-hero .hero-stats .stat-icon {
-  display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px;
-  border-radius: 12px; background: rgba(183, 243, 74, 0.12); color: var(--lime);
-  font-size: 1.2rem; margin-bottom: 10px;
-}
-.af-hero .hero-stats strong { color: var(--ivory); font-family: var(--font-title); font-weight: 800; font-size: 1.7rem; line-height: 1; letter-spacing: 0.5px; }
-.af-hero .hero-stats .stat-label { font-size: 0.8rem; line-height: 1.35; color: var(--gray); }
+.af-hero .hero-text-link:hover { color: var(--lime); }
+.af-hero .hero-text-link span { font-size: 0.95rem; line-height: 1; }
 
 /* ============ PROBLEMA ============ */
 .problem-grid { margin-top: 40px; align-items: stretch; }
@@ -251,9 +273,12 @@ section[id], footer[id] { scroll-margin-top: 96px; }
 .chi-sono-text p:last-child { margin-bottom: 0; }
 
 /* ============ SPECIALIZZAZIONI (HOVER LUMINOSO) ============ */
+/* Stessa superficie delle card del metodo: vetro scuro, bordo lime tenue, ombra profonda */
 .service-card {
-  background: var(--military); border: 1px solid rgba(183, 243, 74, 0.1); border-radius: var(--radius);
-  padding: 34px 28px; transition: all var(--transition); position: relative; overflow: hidden;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(183, 243, 74, 0.14); border-radius: 19px;
+  padding: 30px 26px 28px; position: relative; overflow: hidden;
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .service-card::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -264,7 +289,7 @@ section[id], footer[id] { scroll-margin-top: 96px; }
 .service-card:hover,
 .service-card.is-lit {
   transform: translateY(-3px) scale(1.08); border-color: var(--lime);
-  box-shadow: 0 10px 25px rgba(183, 243, 74, 0.3), 0 20px 45px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 18px 44px rgba(183, 243, 74, 0.55), 0 0 0 1px rgba(183, 243, 74, 0.55), 0 0 26px rgba(183, 243, 74, 0.35), 0 20px 45px rgba(0, 0, 0, 0.4);
 }
 .service-card:hover::before,
 .service-card.is-lit::before { opacity: 1; }
@@ -279,7 +304,7 @@ section[id], footer[id] { scroll-margin-top: 96px; }
 .service-card:hover .icon-badge .bx,
 .service-card.is-lit .icon-badge .bx { transform: scale(1.3); }
 .service-card h3 { font-size: 1.15rem; margin-bottom: 12px; color: var(--ivory); position: relative; z-index: 1; }
-.service-card p { font-size: 0.95rem; color: var(--sage); line-height: 1.6; position: relative; z-index: 1; }
+.service-card p { font-size: 0.95rem; color: rgba(244, 243, 238, 0.82); line-height: 1.6; position: relative; z-index: 1; }
 
 /* ============ BENEFICI ============ */
 .section-sub.wide { max-width: 760px; }
@@ -765,26 +790,34 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .grid-2 { grid-template-columns: 1fr; gap: 40px; }
-  .af-hero { padding-top: 120px; text-align: center; }
-  .af-hero .hero-grid { text-align: left; }
-  .hero-actions { justify-content: center; }
+  .af-hero { padding-top: 120px; }
   .footer-grid { grid-template-columns: 1fr; gap: 30px; }
   .metodo-science { grid-template-columns: 1fr; }
   .chi-sono-top { grid-template-columns: 1fr; gap: 30px; }
   .profile-photo { max-width: 320px; }
 }
 @media (max-width: 860px) {
-  .af-hero .hero-stats { margin-top: 44px; }
+  .af-hero h1 { font-size: clamp(2.3rem, 7.6vw, 3.4rem); }
+  .af-hero .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 44px; padding: 12px; border-radius: 22px; }
+  .af-hero .hero-stats li { min-height: 108px; padding: 0 8px; }
+  .af-hero .hero-stats li:nth-child(3) { border-left: 0; }
+  .af-hero .hero-stats li:nth-child(n+3) { border-top: 1px solid #626760; }
+  /* Nelle due righe la targhetta va dentro la cella: sopra finirebbe sul testo della cella adiacente */
+  .af-hero .hero-stats li.has-offer { padding-top: 24px; }
+  .af-hero .offer-badge { top: 6px; right: 10px; transform: none; font-size: 0.5rem; padding: 4px 10px; }
   .review-card { width: 290px; }
   .method-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
-  /* Badge su una riga anche nelle card strette */
-  .af-hero .hero-stats .offer-badge { top: 8px; right: 10px; font-size: 0.42rem; letter-spacing: 0.4px; }
+  .af-hero .hero-stats .stat-icon { font-size: 2rem; }
+  .af-hero .hero-stats strong { font-size: 1.6rem; }
+  .af-hero .hero-stats .stat-label { font-size: 0.82rem; }
 }
 @media (max-width: 480px) {
-  .hero-actions { flex-direction: column; width: 100%; }
   .btn { width: 100%; }
+  .af-hero h1 { font-size: clamp(2.1rem, 10.4vw, 2.8rem); }
+  .af-hero .btn-hero { padding: 16px 18px; font-size: 0.9rem; gap: 12px; }
+  .af-hero .btn-hero .btn-arrow { font-size: 1.25rem; }
   .contact-chips { flex-direction: column; align-items: center; }
   .contact-chips a { width: 100%; justify-content: center; }
   .mc-chart { grid-template-columns: 34px minmax(0, 1fr); }

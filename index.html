@@ -10,7 +10,7 @@
   <!-- Tipografia: Montserrat (titoli 800/600) + Inter (testi 400) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Inter:wght@400;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Inter:wght@400;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Boxicons CDN (Icone leggere senza script) -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -59,30 +59,36 @@
 
   <!-- ============ 1. HERO ============ -->
   <section class="hero af-hero">
-    <div class="container grid-2 hero-grid">
-      <div>
-        <h1 class="reveal delay-1">Ti alleni, ti impegni,<br />ma i <span class="hl">risultati</span> non arrivano?</h1>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="hero-eyebrow reveal">Allenamento personalizzato</span>
+        <h1 class="reveal delay-1">Ti alleni, ti impegni,<br />ma i risultati<br /><em>non arrivano?</em></h1>
         <p class="lead reveal delay-2">
           Non hai bisogno di allenarti di più, ma di un <strong class="ivory">programma personalizzato</strong>
           che tenga conto delle tue esigenze e dei tuoi obiettivi.
         </p>
         <p class="lead reveal delay-2">
-          Un percorso di allenamento costruito su di te, sulle tue capacità e sul tuo stile di vita.
-          Con il supporto di una professionista che ti accompagna passo dopo passo, anche a distanza.
+          Un percorso di allenamento costruito <strong class="ivory">su di te</strong>, sulle tue capacità e sul tuo stile di vita.
+          Con il supporto di una professionista che ti accompagna passo dopo passo, <strong class="ivory">anche a distanza.</strong>
         </p>
+        <div class="hero-inline-link reveal delay-3">
+          <a href="#metodo" class="hero-text-link">Scopri il metodo <span aria-hidden="true">↓</span></a>
+        </div>
       </div>
+    </div>
 
-      <!-- TARGHETTE SINTETICHE DEL PERCORSO -->
+    <!-- TARGHETTE SINTETICHE DEL PERCORSO -->
+    <div class="container">
       <ul class="hero-stats reveal delay-4" aria-label="Il percorso in sintesi">
         <li>
           <span class="stat-icon"><i class="bx bx-calendar"></i></span>
           <strong>6</strong>
-          <span class="stat-label">settimane di percorso</span>
+          <span class="stat-label">settimane<br />di percorso</span>
         </li>
         <li>
           <span class="stat-icon"><i class="bx bx-user-check"></i></span>
           <strong>1:1</strong>
-          <span class="stat-label">programma cucito su di te</span>
+          <span class="stat-label">programma<br />cucito su di te</span>
         </li>
         <li>
           <span class="stat-icon"><i class="bx bx-support"></i></span>
@@ -98,9 +104,8 @@
       </ul>
     </div>
 
-    <div class="hero-actions reveal delay-3">
-      <a href="#contatti" class="btn btn-primary"><i class="bx bx-calendar"></i> Prenota la tua prima sessione gratuita</a>
-      <a href="#metodo" class="btn btn-secondary"><i class="bx bx-compass"></i> Scopri il metodo</a>
+    <div class="hero-cta-wrap reveal delay-3">
+      <a href="#contatti" class="btn btn-primary btn-hero">Prenota la tua prima sessione gratuita <span class="btn-arrow" aria-hidden="true">→</span></a>
     </div>
   </section>
 
