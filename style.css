@@ -120,8 +120,11 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   position: fixed; top: 80px; left: 20px; right: 20px;
   background: rgba(23, 26, 24, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--lime); border-radius: var(--radius); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-  padding: 24px; z-index: 999; opacity: 0; visibility: hidden;
+  padding: 20px 24px; z-index: 999; opacity: 0; visibility: hidden;
   transform: translateY(-20px) scale(0.95); transition: opacity var(--transition), visibility var(--transition), transform var(--transition);
+  /* Il menu deve poter scorrere: su schermi bassi le voci non entrano tutte */
+  max-height: calc(100vh - 96px); max-height: calc(100dvh - 96px);
+  overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; touch-action: pan-y;
 }
 .mobile-menu.active { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
 .mobile-menu a {
@@ -176,7 +179,31 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   font-family: var(--font-body); font-weight: 900;
   font-size: clamp(2.4rem, 5.25vw, 4.5rem); line-height: 0.99; letter-spacing: -0.05em;
 }
-.af-hero h1 em { color: var(--lime); font-style: italic; }
+.af-hero h1 em { color: var(--lime); font-style: italic; letter-spacing: 0.03em; }
+
+/* "ma i risultati / non arrivano?" appare come se venisse scritta */
+.af-hero h1 .typed { display: block; }
+.af-hero h1 .typed-line {
+  display: block; width: fit-content; max-width: 100%; overflow: hidden; white-space: nowrap;
+  max-width: 0;
+  animation: typed-line 1.1s steps(22, end) forwards;
+}
+/* Il cursore lampeggiante resta solo sulla riga lime */
+.af-hero h1 .typed-line-2 {
+  border-right: 3px solid transparent;
+  animation: typed-line 1.1s steps(22, end) 1.05s forwards, typed-caret 0.75s step-end 1.05s infinite;
+}
+@keyframes typed-line {
+  from { max-width: 0; }
+  to { max-width: 100%; }
+}
+@keyframes typed-caret {
+  0%, 49% { border-right-color: var(--lime); }
+  50%, 100% { border-right-color: transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .af-hero h1 .typed-line { animation: none; max-width: 100%; border-right: 0; }
+}
 
 .af-hero .lead { color: #e1e4df; font-size: clamp(0.95rem, 1.25vw, 1.12rem); line-height: 1.6; max-width: 620px; margin-bottom: 18px; }
 .af-hero .lead:last-of-type { margin-bottom: 0; }
@@ -216,10 +243,32 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   50% { opacity: 0.25; }
 }
 
-/* CTA centrata sotto le targhette */
-.hero-cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; width: 90%; max-width: var(--container-width); margin: 30px auto 0; padding: 0 16px; }
-.af-hero .btn-hero { padding: 17px 34px; font-size: 1.02rem; font-weight: 800; border-radius: 50px; gap: 24px; text-align: center; }
-.af-hero .btn-hero .btn-arrow { font-size: 1.5rem; line-height: 1; }
+/* Hero a due colonne: testo a sinistra, foto con le linee lime a destra */
+.af-hero .hero-inner { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 24px; align-items: center; }
+.af-hero .hero-copy { min-width: 0; }
+/* CTA principale: centrata sotto le targhette del percorso */
+.af-hero .hero-actions { display: flex; justify-content: center; margin-top: 34px; }
+
+.hero-athlete {
+  position: relative; justify-self: end;
+  width: 100%; max-width: 560px; height: 560px;
+  display: flex; align-items: flex-end; justify-content: center;
+  pointer-events: none;
+}
+/* Cerchio pieno + anello esterno tenue */
+.hero-athlete::before {
+  content: ''; position: absolute; width: 76%; aspect-ratio: 1;
+  top: 12%; left: 8%; border: 2px solid rgba(183, 243, 74, 0.75); border-radius: 50%;
+}
+.hero-athlete::after {
+  content: ''; position: absolute; width: 94%; aspect-ratio: 1;
+  top: 3%; left: 0; border: 1px solid rgba(183, 243, 74, 0.28); border-radius: 50%;
+}
+.hero-athlete img {
+  position: relative; z-index: 1; width: 100%; height: 100%;
+  object-fit: contain; object-position: center bottom;
+}
+
 .hero-inline-link { max-width: 620px; margin-top: 8px; text-align: right; }
 .af-hero .hero-text-link {
   display: inline-flex; align-items: center; gap: 4px; color: var(--sage);
@@ -408,6 +457,18 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   color: var(--carbon); margin-bottom: 8px;
 }
 .body-item .item-card p { font-size: 0.82rem; line-height: 1.5; color: rgba(23, 26, 24, 0.74); }
+.body-item .item-card {
+  transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.body-item .item-card h4, .body-item .item-card p { transition: color 0.3s ease; }
+/* Hover identico alle card delle specializzazioni: superficie scura, bordo e ombra lime, zoom 1.08 */
+.body-item:hover .item-card {
+  background: #1B1F1C; border-color: var(--lime);
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 18px 44px rgba(183, 243, 74, 0.55), 0 0 0 1px rgba(183, 243, 74, 0.55), 0 0 26px rgba(183, 243, 74, 0.35), 0 20px 45px rgba(0, 0, 0, 0.4);
+}
+.body-item:hover .item-card h4 { color: var(--ivory); }
+.body-item:hover .item-card p { color: rgba(244, 243, 238, 0.82); }
 
 /* Icona appoggiata nell'angolo in alto a sinistra della card */
 .body-item.has-corner-icon .item-card { position: relative; padding: 20px 20px 18px 50px; }
@@ -791,6 +852,7 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   .hamburger { display: flex; }
   .grid-2 { grid-template-columns: 1fr; gap: 40px; }
   .af-hero { padding-top: 120px; }
+  .hero-athlete { height: 460px; max-width: 470px; }
   .footer-grid { grid-template-columns: 1fr; gap: 30px; }
   .metodo-science { grid-template-columns: 1fr; }
   .chi-sono-top { grid-template-columns: 1fr; gap: 30px; }
@@ -798,6 +860,8 @@ section[id], footer[id] { scroll-margin-top: 96px; }
 }
 @media (max-width: 860px) {
   .af-hero h1 { font-size: clamp(2.3rem, 7.6vw, 3.4rem); }
+  .af-hero .hero-inner { grid-template-columns: 1fr; gap: 10px; }
+  .hero-athlete { justify-self: center; height: 420px; max-width: 430px; margin-top: 10px; }
   .af-hero .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 44px; padding: 12px; border-radius: 22px; }
   .af-hero .hero-stats li { min-height: 108px; padding: 0 8px; }
   .af-hero .hero-stats li:nth-child(3) { border-left: 0; }
@@ -812,12 +876,13 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   .af-hero .hero-stats .stat-icon { font-size: 2rem; }
   .af-hero .hero-stats strong { font-size: 1.6rem; }
   .af-hero .hero-stats .stat-label { font-size: 0.82rem; }
+  .hero-athlete { height: 340px; max-width: 350px; }
 }
 @media (max-width: 480px) {
   .btn { width: 100%; }
   .af-hero h1 { font-size: clamp(2.1rem, 10.4vw, 2.8rem); }
-  .af-hero .btn-hero { padding: 16px 18px; font-size: 0.9rem; gap: 12px; }
-  .af-hero .btn-hero .btn-arrow { font-size: 1.25rem; }
+  .hero-athlete { height: 300px; max-width: 310px; }
+  .hero-actions { margin-top: 20px; }
   .contact-chips { flex-direction: column; align-items: center; }
   .contact-chips a { width: 100%; justify-content: center; }
   .mc-chart { grid-template-columns: 34px minmax(0, 1fr); }
@@ -1076,41 +1141,32 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   transform: scaleX(1); transform-origin: bottom left;
 }
 
-/* CTA FAQ "Hai una domanda? Contattami" (stile Uiverse, ricolorata col brand) */
-.faq-cta-wrap {
-  margin-top: 32px; padding: 0; text-align: center;
-  background: transparent; border: 0;
-}
+/* CTA FAQ minimale: testo con icona, zoom 1.2 e tooltip al passaggio del mouse */
+.faq-cta-wrap { margin-top: 34px; padding: 0 12px; text-align: center; }
 .faq-cta {
-  position: relative; display: inline-block;
-  border: none; background: transparent;
-  --stroke-color: rgb(0, 0, 0);
-  --ani-color: rgba(0, 0, 0, 0);
-  --color-gar: linear-gradient(90deg, #171A18, #303A32, #55604F, #171A18);
-  font-family: var(--font-title); font-weight: 700;
-  letter-spacing: 2px; font-size: clamp(0.78rem, 1.35vw, 1.05rem); line-height: 1.5;
-  text-transform: uppercase; color: transparent;
-  -webkit-text-stroke: 1px var(--stroke-color);
-  cursor: pointer; white-space: nowrap;
+  position: relative; display: inline-flex; align-items: center; gap: 9px;
+  padding: 12px 22px; border: 1px solid rgba(23, 26, 24, 0.28); border-radius: 999px;
+  background: transparent; color: var(--carbon);
+  font-family: var(--font-title); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  font-size: clamp(0.72rem, 1.1vw, 0.86rem); line-height: 1.4; white-space: nowrap;
+  max-width: 100%; cursor: pointer; transition: all var(--transition);
 }
-.faq-cta .front-text {
-  position: absolute; top: 0; left: 0; width: 0%;
-  background: var(--color-gar); background-size: 200%;
-  -webkit-background-clip: text; background-clip: text;
-  overflow: hidden; white-space: nowrap;
-  border-bottom: 1px solid transparent;
-  transition: all 1s;
-  animation: faq-cta-ani 8s infinite;
+.faq-cta .bx { font-size: 1.1rem; line-height: 1; transition: color var(--transition); }
+.faq-cta:hover, .faq-cta:focus-visible {
+  transform: scale(1.2); background: var(--carbon); border-color: var(--carbon); color: var(--lime);
 }
-.faq-cta:hover .front-text,
-.faq-cta:focus-visible .front-text {
-  width: 100%; border-bottom-color: var(--lime); -webkit-text-stroke: 1px var(--ani-color);
+.faq-cta:hover .bx, .faq-cta:focus-visible .bx { color: var(--lime); }
+/* Tooltip "Contattami" sopra la pillola */
+.faq-cta::after {
+  content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 12px); z-index: 30;
+  padding: 6px 11px; border-radius: 8px; background: var(--carbon); color: var(--ivory);
+  font-family: var(--font-body); font-size: 0.68rem; font-weight: 600; letter-spacing: 0;
+  text-transform: none; white-space: nowrap; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  opacity: 0; transform: translate(-50%, 6px); pointer-events: none;
+  transition: opacity var(--transition), transform var(--transition);
 }
-@keyframes faq-cta-ani {
-  0% { background-position: 0%; }
-  50% { background-position: 400%; }
-  100% { background-position: 0%; }
-}
+.faq-cta:hover::after, .faq-cta:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
 @media (max-width: 640px) {
-  .faq-cta { letter-spacing: 1.2px; font-size: 0.72rem; }
+  /* Su schermi stretti la pillola va a capo invece di sforare il bordo */
+  .faq-cta { font-size: 0.66rem; padding: 11px 16px; gap: 7px; white-space: normal; text-align: center; }
 }
