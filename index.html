@@ -35,6 +35,21 @@
         <a href="#percorsi">Percorsi</a>
         <a href="#recensioni">Recensioni</a>
         <a href="#faq">FAQ</a>
+
+        <!-- Icona scorciatoie: apre il menu rapido al passaggio del mouse -->
+        <div class="nav-quick" id="navQuick">
+          <button class="nav-quick-toggle" type="button" aria-expanded="false" aria-controls="navQuickMenu" aria-label="Scorciatoie di navigazione">
+            <i class="bx bx-grid-alt" aria-hidden="true"></i>
+          </button>
+          <div class="nav-quick-menu" id="navQuickMenu">
+            <a href="#recensioni"><i class="bx bx-message-square"></i>Recensioni</a>
+            <a href="#faq"><i class="bx bx-help-circle"></i>FAQ</a>
+            <a href="#contatti"><i class="bx bx-calendar"></i>Contatti</a>
+            <a href="#benefici"><i class="bx bx-heart"></i>Benefici</a>
+            <a href="#specializzazioni"><i class="bx bx-star"></i>Specializzazioni</a>
+          </div>
+        </div>
+
         <a href="#contatti" class="nav-cta">Sessione gratuita</a>
       </nav>
 
@@ -66,7 +81,7 @@
           Ti alleni, ti impegni,<br />
           <span class="typed">
             <span class="typed-line typed-line-1">ma i risultati</span>
-            <span class="typed-line typed-line-2"><em>non arrivano?</em></span>
+            <span class="typed-line typed-line-2"><em>non arrivano<span class="qmark">?</span></em></span>
           </span>
         </h1>
         <p class="lead reveal delay-2">
@@ -127,19 +142,27 @@
   </section>
 
   <!-- ============ 2. IL PROBLEMA ============ -->
-  <section class="section" id="problema">
-    <div class="container">
-      <h2 class="section-title reveal">Quante volte hai iniziato ad allenarti<br />senza riuscire a <span class="hl">mantenere la costanza</span>?</h2>
-      <div class="grid-2 problem-grid">
-        <div class="reveal delay-1">
-          <p>Magari hai provato programmi trovati online, allenamenti generici o schede che non tenevano conto delle tue reali esigenze.</p>
-          <p>All'inizio eri motivato, ma con il tempo sono arrivate difficoltà, dubbi e risultati diversi da quelli che speravi.</p>
-          <p>Il problema non è necessariamente la tua motivazione.<br />Spesso manca un <strong class="ivory">programma costruito intorno alla persona</strong>, che tenga conto delle sue caratteristiche, delle sue capacità e dei suoi obiettivi.</p>
-        </div>
-        <div class="problem-quote reveal delay-2">
-          <span class="quote-mark">"</span>
-          <p>Non devi adattarti a un allenamento qualsiasi.<br /><span class="hl">È l'allenamento che deve adattarsi a te.</span></p>
-        </div>
+  <section class="problem-section" id="problema">
+    <div class="container problem-inner">
+      <figure class="problem-photo reveal reveal-left">
+        <span class="photo-orbit" aria-hidden="true"></span>
+        <img src="foto 2.png" alt="Allenamento con la Dott.ssa Angelica Frascarolo"
+             onerror="this.onerror=null;this.src='foto1.png';" />
+        <figcaption class="photo-tag"><span class="tag-dot" aria-hidden="true"></span> Allenamento su misura</figcaption>
+      </figure>
+
+      <div class="problem-copy reveal reveal-right delay-1">
+        <span class="problem-kicker">Riparti da te</span>
+        <h2>Quante volte hai iniziato ad allenarti senza riuscire a <em>mantenere la costanza?</em></h2>
+        <p>Magari hai provato programmi trovati online, allenamenti generici o schede che non tenevano conto delle tue reali esigenze.</p>
+        <p>All'inizio eri motivato, ma con il tempo sono arrivate difficoltà, dubbi e risultati diversi da quelli che speravi.</p>
+        <p>Il problema non è necessariamente la tua motivazione.<br />Spesso manca un <strong>programma costruito intorno alla persona</strong>, che tenga conto delle sue caratteristiche, delle sue capacità e dei suoi obiettivi.</p>
+
+        <blockquote class="problem-blockquote">
+          <span class="quote-mark" aria-hidden="true">"</span>
+          <span class="quote-decoration" aria-hidden="true"></span>
+          <p>Non devi adattarti a un allenamento qualsiasi. <em>È l'allenamento che deve adattarsi a te.</em></p>
+        </blockquote>
       </div>
     </div>
   </section>
