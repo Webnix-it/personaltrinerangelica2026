@@ -153,12 +153,32 @@
       });
   }
 
+  /* Il popup può essere bloccato dal browser: in quel caso si passa
+     al redirect, che riporta l'utente sulla stessa pagina già
+     autenticato (l'ascolto onAuthStateChanged fa il resto). */
   function signInWithGoogle() {
     return loadApi().then(function (api) {
       var provider = new api.authMod.GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
-      return api.authMod.signInWithPopup(api.auth, provider);
+
+      return api.authMod.signInWithPopup(api.auth, provider).catch(function (error) {
+        var code = (error && error.code) || '';
+        var ripiega =
+          code === 'auth/popup-blocked' ||
+          code === 'auth/operation-not-supported-in-this-environment' ||
+          code === 'auth/cancelled-popup-request';
+
+        if (!ripiega) throw error;
+        return api.authMod.signInWithRedirect(api.auth, provider);
+      });
     });
+  }
+
+  /* Recupera l'esito di un accesso fatto via redirect. */
+  function completeRedirect() {
+    return loadApi()
+      .then(function (api) { return api.authMod.getRedirectResult(api.auth); })
+      .catch(function (error) { return error; });
   }
 
   function signOutUser() {
@@ -173,6 +193,7 @@
     getApi: loadApi,
     onAuthChange: onAuthChange,
     signInWithGoogle: signInWithGoogle,
+    completeRedirect: completeRedirect,
     signOutUser: signOutUser,
     subscribeReviews: subscribeReviews,
     addReview: addReview,

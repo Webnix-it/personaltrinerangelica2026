@@ -59,6 +59,31 @@
 
   function formatError(error) {
     var code = error && error.code ? String(error.code) : '';
+
+    /* Errori di accesso: spiegano cosa sistemare nella Console Firebase. */
+    if (code.indexOf('unauthorized-domain') !== -1) {
+      return (
+        'Dominio non autorizzato. In Firebase → Authentication → Settings → Authorized domains aggiungi ' +
+        window.location.origin +
+        ' (per i test in locale aggiungi anche localhost).'
+      );
+    }
+    if (code.indexOf('operation-not-allowed') !== -1) {
+      return 'Il provider Google non è attivo: Firebase → Authentication → Sign-in method → Google → Attiva.';
+    }
+    if (code.indexOf('popup-blocked') !== -1) {
+      return 'Il browser ha bloccato la finestra di accesso: consenti i popup per questo sito e riprova.';
+    }
+    if (code.indexOf('invalid-api-key') !== -1) {
+      return 'La apiKey in firebase-config.js non è valida: ricontrolla la configurazione del progetto.';
+    }
+    if (code.indexOf('network-request-failed') !== -1) {
+      return 'Connessione a Firebase non disponibile: controlla la rete e riprova.';
+    }
+    if (code.indexOf('account-exists-with-different-credential') !== -1) {
+      return 'Questo indirizzo è già registrato con un altro metodo di accesso.';
+    }
+
     if (code.indexOf('permission-denied') !== -1) {
       return 'Permessi insufficienti: controlla le regole Firestore e l’email admin.';
     }
@@ -97,6 +122,17 @@
     gateStatus.className = 'admin-gate-status' + (isError ? ' is-error' : '');
   }
 
+  /* 127.0.0.1 non è tra i domini autorizzati del progetto Firebase:
+     il popup di Google si apre ma non riesce a tornare indietro. */
+  function localHostHint() {
+    var host = window.location.hostname;
+    if (host !== '127.0.0.1' && host !== '[::1]') return '';
+    return (
+      'Apri la dashboard da http://localhost:' + (window.location.port || '80') +
+      '/admin.html: il dominio 127.0.0.1 non è autorizzato in Firebase, quindi l’accesso Google non si completa.'
+    );
+  }
+
   function showApp(user) {
     gate.hidden = true;
     app.hidden = false;
@@ -115,6 +151,11 @@
 
     window.SiteFirebase.signInWithGoogle()
       .catch(function (error) {
+        if (localHostHint()) {
+          gateStatus.textContent = localHostHint();
+          gateStatus.className = 'admin-gate-status is-error';
+          return;
+        }
         if (error && error.code === 'auth/popup-closed-by-user') {
           gateStatus.textContent = 'Accesso annullato.';
         } else {
@@ -423,14 +464,29 @@
       return;
     }
 
+    /* Se si arriva da un accesso via redirect, eventuali errori vanno mostrati. */
+    if (typeof window.SiteFirebase.completeRedirect === 'function') {
+      window.SiteFirebase.completeRedirect().then(function (result) {
+        if (result && result.code) {
+          showGate(formatError(result), true);
+        }
+      });
+    }
+
     window.SiteFirebase.onAuthChange(function (user) {
       if (!user) {
-        showGate('');
+        var hint = localHostHint();
+        showGate(hint, Boolean(hint));
         return;
       }
 
       if (!window.SiteFirebase.isAdminEmail(user.email)) {
-        showGate('Accesso negato: l’account ' + user.email + ' non è abilitato.', true);
+        var autorizzati = (window.ADMIN_EMAILS || []).join(', ');
+        showGate(
+          'Accesso negato: l’account ' + (user.email || 'sconosciuto') + ' non è abilitato.' +
+            (autorizzati ? ' Account autorizzato: ' + autorizzati : ''),
+          true
+        );
         window.SiteFirebase.signOutUser();
         return;
       }
