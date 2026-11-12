@@ -413,6 +413,29 @@
     });
 
     build();
+
+    /* Recensioni da Firebase: se la raccolta contiene dati, il nastro viene
+       ricostruito con quelli e resta in ascolto per gli aggiornamenti
+       fatti dalla Dashboard Admin. */
+    function applyRemote(list) {
+      if (!list || !list.length) return;
+      REVIEWS.length = 0;
+      list.forEach(function (review) {
+        REVIEWS.push({
+          name: review.label || review.name,
+          role: review.role || 'Recensione verificata',
+          stars: review.stars,
+          text: review.text,
+        });
+      });
+      build();
+    }
+
+    if (window.SiteFirebase && window.SiteFirebase.isConfigured()) {
+      window.SiteFirebase.subscribeReviews(applyRemote, function () {
+        /* In caso di errore restano le recensioni dimostrative già caricate. */
+      });
+    }
   }
 
   /* ==========================================================
