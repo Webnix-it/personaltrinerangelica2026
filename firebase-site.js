@@ -10,6 +10,8 @@
 
   var config = window.FIREBASE_CONFIG || {};
   var collectionName = window.REVIEWS_COLLECTION || 'reviews';
+  var SETTINGS_COLLECTION = 'settings';
+  var SETTINGS_DOC = 'site';
   var adminEmails = (window.ADMIN_EMAILS || []).map(function (mail) {
     return String(mail).toLowerCase();
   });
@@ -141,6 +143,48 @@
     });
   }
 
+  /* ---------------- impostazioni del sito (settings/site) ---------------- */
+
+  function settingsRef(api) {
+    return api.dbMod.doc(api.db, SETTINGS_COLLECTION, SETTINGS_DOC);
+  }
+
+  function subscribeSettings(onChange, onError) {
+    var unsubscribe = null;
+    var closed = false;
+
+    loadApi()
+      .then(function (api) {
+        if (closed) return;
+
+        unsubscribe = api.dbMod.onSnapshot(
+          settingsRef(api),
+          function (snapshot) {
+            onChange(snapshot.exists() ? snapshot.data() : {});
+          },
+          function (error) { if (onError) onError(error); }
+        );
+      })
+      .catch(function (error) { if (onError) onError(error); });
+
+    return function () {
+      closed = true;
+      if (unsubscribe) unsubscribe();
+    };
+  }
+
+  /* Scrive le sezioni passate mantenendo quelle già presenti nel
+     documento, così una modifica non cancella le altre. */
+  function saveSettings(sections) {
+    return loadApi().then(function (api) {
+      var payload = Object.assign({}, sections);
+      payload.updatedAt = api.dbMod.serverTimestamp();
+      payload.updatedBy = api.auth.currentUser ? api.auth.currentUser.email || '' : '';
+
+      return api.dbMod.setDoc(settingsRef(api), payload, { merge: true });
+    });
+  }
+
   function onAuthChange(callback) {
     loadApi()
       .then(function (api) {
@@ -196,6 +240,8 @@
     completeRedirect: completeRedirect,
     signOutUser: signOutUser,
     subscribeReviews: subscribeReviews,
+    subscribeSettings: subscribeSettings,
+    saveSettings: saveSettings,
     addReview: addReview,
     updateReview: updateReview,
     deleteReview: deleteReview,

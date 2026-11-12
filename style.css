@@ -1776,6 +1776,131 @@ html { scrollbar-width: thin; scrollbar-color: rgba(183, 243, 74, 0.6) #141715; 
   .admin-delete:hover .svgIcon { width: 26px; }
   .admin-toast { right: 16px; left: 16px; bottom: 16px; max-width: none; }
 }
+
+/* ============================================================
+   ADMIN — nuove sezioni e impostazioni
+   ============================================================ */
+.admin-home-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px;
+  border: 1px solid rgba(183, 243, 74, 0.28); border-radius: 99px;
+  color: var(--sage); text-decoration: none;
+  font-family: var(--font-title); font-weight: 600; font-size: 0.78rem;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+.admin-home-btn:hover { color: var(--lime); border-color: var(--lime); background: rgba(183, 243, 74, 0.08); }
+
+.admin-card {
+  margin-top: 26px; padding: 22px 24px;
+  background: var(--package-card); border: 1px solid var(--military); border-radius: 20px;
+}
+.admin-card-head { display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+.admin-card-text { margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--gray); }
+.admin-subtitle { font-family: var(--font-title); font-size: 1.05rem; color: var(--ivory); }
+.admin-subtitle-spaced { margin: 26px 0 4px; }
+
+/* Toggle on/off */
+.admin-switch { position: relative; display: inline-flex; align-items: center; cursor: pointer; flex: none; }
+.admin-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.admin-switch-ui {
+  display: block; width: 46px; height: 26px; border-radius: 99px;
+  background: #3a453c; border: 1px solid rgba(183, 243, 74, 0.25);
+  position: relative; transition: background var(--transition), border-color var(--transition);
+}
+.admin-switch-ui::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 20px; border-radius: 50%; background: var(--ivory);
+  transition: transform var(--transition), background var(--transition);
+}
+.admin-switch input:checked + .admin-switch-ui { background: var(--lime); border-color: var(--lime); }
+.admin-switch input:checked + .admin-switch-ui::after { transform: translateX(20px); background: var(--carbon); }
+.admin-switch input:focus-visible + .admin-switch-ui { outline: 2px solid var(--lime); outline-offset: 3px; }
+
+/* Righe impostazioni */
+.admin-settings-form { display: flex; flex-direction: column; }
+.admin-social-row {
+  display: grid; grid-template-columns: 190px minmax(0, 1fr) 46px;
+  gap: 16px; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid rgba(183, 243, 74, 0.1);
+}
+.admin-social-name {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-title); font-weight: 600; font-size: 0.86rem; color: var(--sage);
+}
+.admin-social-name .bx { font-size: 1.15rem; color: var(--lime); }
+.admin-social-row input[type="text"] {
+  width: 100%; padding: 11px 13px; border-radius: 10px;
+  background: rgba(23, 26, 24, 0.85); border: 1px solid rgba(183, 243, 74, 0.18);
+  color: var(--ivory); font-family: var(--font-body); font-size: 0.9rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.admin-social-row input[type="text"]:focus {
+  outline: none; border-color: var(--lime); box-shadow: 0 0 0 3px rgba(183, 243, 74, 0.14);
+}
+
+.admin-image-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px; align-items: center;
+  padding: 14px 0; border-bottom: 1px solid rgba(183, 243, 74, 0.1);
+}
+.admin-image-row .admin-field { margin-bottom: 0; }
+.admin-image-previews { display: flex; gap: 12px; }
+.admin-image-previews figure {
+  margin: 0; width: 104px; text-align: center;
+}
+.admin-image-previews img {
+  width: 104px; height: 72px; object-fit: cover; display: block;
+  border-radius: 10px; border: 1px solid var(--military); background: var(--military);
+}
+.admin-image-previews figcaption {
+  margin-top: 6px; font-size: 0.68rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--gray);
+}
+
+.admin-button-row { padding: 14px 0; border-bottom: 1px solid rgba(183, 243, 74, 0.1); }
+.admin-button-row .admin-field { margin-bottom: 6px; }
+.admin-current { font-size: 0.78rem; color: var(--gray); word-break: break-all; }
+
+@media (max-width: 900px) {
+  .admin-social-row { grid-template-columns: 150px minmax(0, 1fr) 46px; gap: 12px; }
+  .admin-image-row { grid-template-columns: 1fr; }
+  .admin-image-previews img { width: 96px; height: 66px; }
+  .admin-card-head { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+
+@media (max-width: 520px) {
+  .admin-social-row { grid-template-columns: 1fr 46px; }
+  .admin-social-name { grid-column: 1 / -1; }
+}
+
+/* ============================================================
+   SITO — banner di manutenzione
+   ============================================================ */
+.maintenance-banner {
+  position: relative; z-index: 950;
+  margin-top: 84px;
+  background: #B7F34A; color: #171A18;
+}
+.maintenance-banner[hidden] { display: none; }
+.maintenance-inner { padding: 10px 0; }
+.maintenance-banner p {
+  font-family: var(--font-title); font-weight: 800;
+  font-size: 0.95rem; line-height: 1.45; text-align: center;
+}
+.maintenance-wa {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: #171A18; font-weight: 800; text-decoration: underline;
+  transform-origin: center; transition: transform var(--transition);
+}
+.maintenance-wa:hover { transform: scale(1.2); }
+.maintenance-wa .bx { font-size: 1.2rem; }
+
+@media (max-width: 720px) {
+  .maintenance-banner { margin-top: 76px; }
+  .maintenance-banner p { font-size: 0.85rem; padding: 0 4px; }
+}
+
+/* Icone social nascoste dalla Dashboard */
+.socials .social-link[hidden] { display: none !important; }
 .input-wrapper { display: flex; align-items: center; justify-content: flex-end; gap: 15px; position: relative; }
 .review-search .input {
   border: none; height: 50px; width: 50px; padding: 10px; padding-right: 40px;

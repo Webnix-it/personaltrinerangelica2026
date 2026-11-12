@@ -23,7 +23,7 @@
   <header class="navbar" id="navbar">
     <div class="container nav-inner">
       <a href="#top" class="logo">
-        <img src="logo.png" alt="Logo Fitness Dott.ssa Angelica Frascarolo" />
+        <img src="logo.png" alt="Logo Fitness Dott.ssa Angelica Frascarolo" data-image="logo" />
       </a>
 
       <nav class="nav-links" id="navLinks">
@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <a href="#contatti" class="nav-cta">Sessione gratuita</a>
+        <a href="#contatti" class="nav-cta" data-link="sessione">Sessione gratuita</a>
       </nav>
 
       <button class="hamburger" id="hamburger" type="button" aria-label="Apri menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -68,9 +68,23 @@
       <a href="#percorsi"><i class="bx bx-briefcase"></i> Percorsi</a>
       <a href="#recensioni"><i class="bx bx-message-square"></i> Recensioni</a>
       <a href="#faq"><i class="bx bx-help-circle"></i> FAQ</a>
-      <a href="#contatti"><i class="bx bx-calendar"></i> Sessione gratuita</a>
+      <a href="#contatti" data-link="sessione"><i class="bx bx-calendar"></i> Sessione gratuita</a>
     </div>
   </header>
+
+  <!-- ============ BANNER MANUTENZIONE (gestito dalla Dashboard) ============ -->
+  <div class="maintenance-banner" id="maintenanceBanner" hidden>
+    <div class="container maintenance-inner">
+      <p>
+        <strong>Manutenzione sito web in corso. Alcune funzionalità del sito potrebbero non funzionare. Contattami via </strong>
+        <a class="maintenance-wa" id="maintenanceWa" href="https://wa.me/393522031136" target="_blank" rel="noopener">
+          <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+          <span>WhatsApp</span>
+        </a>
+        <strong>.</strong>
+      </p>
+    </div>
+  </div>
 
   <!-- ============ 1. HERO ============ -->
   <section class="hero af-hero">
@@ -96,7 +110,7 @@
 
       <!-- FOTO + LINEE LIME -->
       <div class="hero-athlete reveal delay-2" aria-label="Atleta in abbigliamento sportivo">
-        <img src="foto 2.png" alt="Atleta in abbigliamento sportivo" onerror="this.onerror=null;this.src='foto1.png';" />
+        <img src="foto 2.png" alt="Atleta in abbigliamento sportivo" data-image="hero" onerror="this.onerror=null;this.src='foto1.png';" />
       </div>
     </div>
 
@@ -128,7 +142,7 @@
     </div>
 
     <div class="container hero-actions reveal delay-3">
-      <a href="#contatti" class="btn btn-primary btn-big">
+      <a href="#contatti" class="btn btn-primary btn-big" data-link="prenota">
         <i class="bx bx-calendar" aria-hidden="true"></i>
         Prenota la tua prima sessione gratuita
       </a>
@@ -140,7 +154,7 @@
     <div class="container problem-inner">
       <figure class="problem-photo reveal reveal-left">
         <span class="photo-orbit" aria-hidden="true"></span>
-        <img src="gif1.webp" alt="Allenamento con la Dott.ssa Angelica Frascarolo" />
+        <img src="gif1.webp" alt="Allenamento con la Dott.ssa Angelica Frascarolo" data-image="problema" />
       </figure>
 
       <div class="problem-copy reveal reveal-right delay-1">
@@ -175,7 +189,7 @@
       <!-- FOTO CON CERCHIO LIME -->
       <figure class="about-image reveal reveal-left" data-photos="https://ricomincia-angelica.higgsfield.app/ricomincia/assets/angelica-professionale.webp,foto1.png">
         <span class="image-circle" aria-hidden="true"></span>
-        <img src="https://ricomincia-angelica.higgsfield.app/ricomincia/assets/angelica-professionale.webp" alt="Dott.ssa Angelica Frascarolo" />
+        <img src="https://ricomincia-angelica.higgsfield.app/ricomincia/assets/angelica-professionale.webp" alt="Dott.ssa Angelica Frascarolo" data-image="chiSono" />
         <span class="image-decoration" aria-hidden="true"></span>
       </figure>
 
@@ -482,7 +496,7 @@
             <li><i class="bx bx-check"></i> Consulenza nutrizionale informativa</li>
             <li><i class="bx bx-check"></i> Supporto WhatsApp 7 giorni su 7</li>
           </ul>
-          <a href="#contatti" class="btn btn-secondary btn-block">Richiedi il percorso</a>
+          <a href="#contatti" class="btn btn-secondary btn-block" data-link="percorso">Richiedi il percorso</a>
         </article>
 
         <article class="card price-card featured reveal delay-1">
@@ -497,7 +511,7 @@
             <li><i class="bx bx-check"></i> Supporto e confronto durante le sessioni</li>
             <li><i class="bx bx-check"></i> Maggiore accompagnamento nell'esecuzione</li>
           </ul>
-          <a href="#contatti" class="btn btn-primary btn-block">Richiedi il percorso</a>
+          <a href="#contatti" class="btn btn-primary btn-block" data-link="percorso">Richiedi il percorso</a>
         </article>
 
         <article class="card price-card reveal delay-2">
@@ -511,7 +525,7 @@
             <li><i class="bx bx-check"></i> 1 allenamento guidato a settimana</li>
             <li><i class="bx bx-check"></i> Supporto più continuativo durante il percorso</li>
           </ul>
-          <a href="#contatti" class="btn btn-secondary btn-block">Richiedi il percorso</a>
+          <a href="#contatti" class="btn btn-secondary btn-block" data-link="percorso">Richiedi il percorso</a>
         </article>
       </div>
 
@@ -525,7 +539,7 @@
       <div class="visual-shape"></div>
       <div class="lime-arc"></div>
       <div class="photo">
-        <img class="athlete" src="foto1.png" alt="Personal trainer in abbigliamento sportivo in palestra" loading="lazy"
+        <img class="athlete" src="foto1.png" data-image="metodo" alt="Personal trainer in abbigliamento sportivo in palestra" loading="lazy"
              onerror="this.onerror=null;this.src='assets/modella.webp';" />
         <!-- Targhetta centrata sulla linea inferiore della foto -->
         <span class="visual-tag"><span class="pulse"></span> IL TUO PERCORSO, AL TUO RITMO</span>
@@ -593,7 +607,7 @@
         <span></span>
       </div>
 
-      <a class="personalized-cta" href="#contatti" aria-label="Prenota ora">
+      <a class="personalized-cta" href="#contatti" aria-label="Prenota ora" data-link="prenota-ora">
         <span class="hover-underline-animation">Prenota ora</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="10" viewBox="0 0 46 16" aria-hidden="true">
           <path d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z" transform="translate(30)"></path>
@@ -663,7 +677,7 @@
       </div>
 
       <div class="faq-cta-wrap">
-        <a class="faq-cta" href="#contatti" data-tip="Contattami">
+        <a class="faq-cta" href="#contatti" data-tip="Contattami" data-link="domanda">
           <i class="bx bx-message-rounded-dots" aria-hidden="true"></i>
           hai una domanda? contattami
         </a>
@@ -677,7 +691,7 @@
       <h2 class="reveal">Il primo passo verso il tuo nuovo percorso<br />può <span class="hl">iniziare oggi</span>.</h2>
       <p class="reveal delay-1">Non aspettare il momento perfetto per prenderti cura di te. Raccontami i tuoi obiettivi e le difficoltà che vorresti superare: possiamo individuare insieme il percorso più adatto alle tue esigenze.</p>
       <div class="reveal delay-2">
-        <a href="https://wa.me/393522031136" target="_blank" rel="noopener" class="btn btn-primary btn-big">
+        <a href="https://wa.me/393522031136" target="_blank" rel="noopener" class="btn btn-primary btn-big" data-link="prenota">
           <i class="bx bxl-whatsapp"></i> Prenota la tua prima sessione gratuita
         </a>
       </div>
@@ -690,20 +704,20 @@
     <div class="container footer-grid notes-grid">
       <div class="footer-brand">
         <a href="#top" class="logo footer-logo" aria-label="Logo Dott.ssa Angelica Frascarolo — torna all'inizio">
-          <img src="logo 2.png" alt="Logo Dott.ssa Angelica Frascarolo" />
+          <img src="logo 2.png" alt="Logo Dott.ssa Angelica Frascarolo" data-image="logoFooter" />
         </a>
 
         <p class="footer-tagline">Chinesiologa · Personal Trainer · Fitness Coach Online.<br />Percorsi di allenamento costruiti intorno a te.</p>
 
         <h4 class="footer-social-title">Seguimi</h4>
         <div class="socials">
-          <a class="social-link" href="https://www.instagram.com/angelicafrascarolo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" data-tip="Instagram"><i class="bx bxl-instagram"></i></a>
-          <a class="social-link" href="https://www.tiktok.com/@angelicafrascarolo" target="_blank" rel="noopener noreferrer" aria-label="TikTok" data-tip="TikTok"><i class="bx bxl-tiktok"></i></a>
-          <a class="social-link" href="https://www.facebook.com/angelicafrascarolo" target="_blank" rel="noopener noreferrer" aria-label="Facebook" data-tip="Facebook"><i class="bx bxl-facebook"></i></a>
-          <a class="social-link" href="https://www.youtube.com/@angelicafrascarolo" target="_blank" rel="noopener noreferrer" aria-label="YouTube" data-tip="YouTube"><i class="bx bxl-youtube"></i></a>
-          <a class="social-link" href="https://wa.me/393522031136" target="_blank" rel="noopener" aria-label="WhatsApp" data-tip="WhatsApp"><i class="bx bxl-whatsapp"></i></a>
-          <a class="social-link" href="mailto:angelicafrascarolopt@gmail.com" aria-label="Email" data-tip="Email"><i class="bx bx-envelope"></i></a>
-          <a class="social-link" href="https://www.google.it" target="_blank" rel="noopener noreferrer" aria-label="Recensioni su Google" data-tip="Recensioni Google"><i class="bx bx-globe"></i></a>
+          <a class="social-link" href="https://www.instagram.com/angelicafrascarolo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" data-tip="Instagram" data-social="instagram"><i class="bx bxl-instagram"></i></a>
+          <a class="social-link" href="https://www.tiktok.com/@angelicafrascarolo" target="_blank" rel="noopener noreferrer" aria-label="TikTok" data-tip="TikTok" data-social="tiktok"><i class="bx bxl-tiktok"></i></a>
+          <a class="social-link" href="https://www.facebook.com/angelicafrascarolo" target="_blank" rel="noopener noreferrer" aria-label="Facebook" data-tip="Facebook" data-social="facebook"><i class="bx bxl-facebook"></i></a>
+          <a class="social-link" href="https://www.youtube.com/@angelicafrascarolo" target="_blank" rel="noopener noreferrer" aria-label="YouTube" data-tip="YouTube" data-social="youtube"><i class="bx bxl-youtube"></i></a>
+          <a class="social-link" href="https://wa.me/393522031136" target="_blank" rel="noopener" aria-label="WhatsApp" data-tip="WhatsApp" data-social="whatsapp"><i class="bx bxl-whatsapp"></i></a>
+          <a class="social-link" href="mailto:angelicafrascarolopt@gmail.com" aria-label="Email" data-tip="Email" data-social="email"><i class="bx bx-envelope"></i></a>
+          <a class="social-link" href="https://www.google.it" target="_blank" rel="noopener noreferrer" aria-label="Recensioni su Google" data-tip="Recensioni Google" data-social="google"><i class="bx bx-globe"></i></a>
         </div>
       </div>
       <div>

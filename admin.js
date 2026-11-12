@@ -447,6 +447,196 @@
     );
   }
 
+  /* ---------------- impostazioni del sito ---------------- */
+
+  var settingsData = {};
+  var settingsStarted = false;
+
+  /* Valori usati finché la sezione non è mai stata salvata. */
+  var SETTING_DEFAULTS = {
+    'images.logo': 'logo.png',
+    'images.hero': 'foto 2.png',
+    'images.problema': 'gif1.webp',
+    'images.chiSono': 'https://ricomincia-angelica.higgsfield.app/ricomincia/assets/angelica-professionale.webp',
+    'images.chiSono2': 'foto1.png',
+    'images.metodo': 'foto1.png',
+    'images.logoFooter': 'logo 2.png',
+  };
+
+  function getPath(object, path) {
+    return path.split('.').reduce(function (value, key) {
+      return value && typeof value === 'object' ? value[key] : undefined;
+    }, object);
+  }
+
+  function setPath(object, path, value) {
+    var keys = path.split('.');
+    var current = object;
+
+    keys.forEach(function (key, index) {
+      if (index === keys.length - 1) {
+        current[key] = value;
+        return;
+      }
+      if (!current[key] || typeof current[key] !== 'object') current[key] = {};
+      current = current[key];
+    });
+  }
+
+  function updatePreviews() {
+    $$('[data-preview]').forEach(function (img) {
+      var path = img.getAttribute('data-preview');
+      var value = getPath(settingsData, path) || SETTING_DEFAULTS[path] || '';
+      if (value) img.src = value;
+    });
+  }
+
+  function updateCurrentLinks() {
+    $$('[data-current]').forEach(function (element) {
+      var value = getPath(settingsData, element.getAttribute('data-current'));
+      element.textContent = 'Collegamento attuale: ' + (value || 'predefinito del sito');
+    });
+  }
+
+  function fillSettings(settings) {
+    settingsData = settings || {};
+
+    $$('[data-setting]').forEach(function (input) {
+      if (document.activeElement === input) return;
+
+      var path = input.getAttribute('data-setting');
+      var value = getPath(settingsData, path);
+
+      if (input.type === 'checkbox') {
+        var fallback = path.indexOf('social.') === 0;
+        input.checked = value === undefined ? fallback : Boolean(value);
+        return;
+      }
+
+      if (value === undefined) value = SETTING_DEFAULTS[path];
+      input.value = value === undefined || value === null ? '' : String(value);
+    });
+
+    updatePreviews();
+    updateCurrentLinks();
+  }
+
+  function startSettings() {
+    if (settingsStarted) return;
+    settingsStarted = true;
+
+    window.SiteFirebase.subscribeSettings(
+      function (settings) { fillSettings(settings); },
+      function (error) {
+        var status = $('#maintenanceStatus');
+        if (status) {
+          status.textContent = formatError(error);
+          status.className = 'admin-form-status is-error';
+        }
+      }
+    );
+  }
+
+  /* Anteprima live dell'immagine digitata. */
+  $$('[data-setting]').forEach(function (input) {
+    input.addEventListener('input', function () {
+      var path = input.getAttribute('data-setting');
+      $$('[data-preview-typed="' + path + '"]').forEach(function (img) {
+        var value = input.value.trim();
+        if (value) img.src = value;
+      });
+    });
+  });
+
+  /* Salvataggio per singolo pannello. */
+  $$('[data-save-settings]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var group = button.getAttribute('data-save-settings');
+      var form = $('[data-settings-form="' + group + '"]');
+      var status = $('[data-settings-status="' + group + '"]');
+      if (!form) return;
+
+      var payload = {};
+
+      $$('[data-setting]', form).forEach(function (input) {
+        var path = input.getAttribute('data-setting');
+        var value = input.type === 'checkbox' ? input.checked : input.value.trim();
+        setPath(payload, path, value);
+      });
+
+      button.disabled = true;
+      if (status) {
+        status.textContent = 'Salvataggio…';
+        status.className = 'admin-form-status';
+      }
+
+      window.SiteFirebase.saveSettings(payload)
+        .then(function () {
+          if (status) {
+            status.textContent = 'Salvato. Le modifiche sono già online.';
+            status.className = 'admin-form-status is-info';
+          }
+
+          /* Aggiorna i riferimenti locali senza aspettare un nuovo snapshot. */
+          $$('[data-setting]', form).forEach(function (input) {
+            var path = input.getAttribute('data-setting');
+            setPath(settingsData, path, input.type === 'checkbox' ? input.checked : input.value.trim());
+          });
+
+          updatePreviews();
+          updateCurrentLinks();
+          toast('Impostazioni salvate.');
+        })
+        .catch(function (error) {
+          if (status) {
+            status.textContent = formatError(error);
+            status.className = 'admin-form-status is-error';
+          }
+        })
+        .then(function () { button.disabled = false; });
+    });
+  });
+
+  /* Mostra subito le anteprime predefinite, prima del login. */
+  updatePreviews();
+  updateCurrentLinks();
+
+  /* Banner di manutenzione: il toggle salva subito. */
+  var maintenanceToggle = $('#maintenanceToggle');
+  var maintenanceStatus = $('#maintenanceStatus');
+
+  if (maintenanceToggle) {
+    maintenanceToggle.addEventListener('change', function () {
+      var on = maintenanceToggle.checked;
+      maintenanceToggle.disabled = true;
+
+      if (maintenanceStatus) {
+        maintenanceStatus.textContent = on ? 'Attivazione del banner…' : 'Disattivazione del banner…';
+        maintenanceStatus.className = 'admin-form-status';
+      }
+
+      window.SiteFirebase.saveSettings({ maintenance: { on: on } })
+        .then(function () {
+          settingsData.maintenance = { on: on };
+          if (maintenanceStatus) {
+            maintenanceStatus.textContent = on
+              ? 'Banner attivo sulla Home.'
+              : 'Banner nascosto: non occupa spazio.';
+            maintenanceStatus.className = 'admin-form-status is-info';
+          }
+          toast(on ? 'Banner di manutenzione attivato.' : 'Banner di manutenzione disattivato.');
+        })
+        .catch(function (error) {
+          maintenanceToggle.checked = !on;
+          if (maintenanceStatus) {
+            maintenanceStatus.textContent = formatError(error);
+            maintenanceStatus.className = 'admin-form-status is-error';
+          }
+        })
+        .then(function () { maintenanceToggle.disabled = false; });
+    });
+  }
+
   /* ---------------- avvio ---------------- */
 
   function init() {
@@ -493,6 +683,7 @@
 
       showApp(user);
       startReviews();
+      startSettings();
     });
   }
 

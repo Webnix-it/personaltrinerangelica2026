@@ -52,6 +52,10 @@
       <div class="admin-user">
         <span class="admin-user-avatar" id="userAvatar" aria-hidden="true">A</span>
         <span class="admin-user-mail" id="userEmail">—</span>
+        <a class="admin-home-btn" href="index.html">
+          <i class="bx bx-home-alt" aria-hidden="true"></i>
+          <span>Home</span>
+        </a>
         <button class="admin-logout" type="button" id="logoutBtn">
           <i class="bx bx-log-out" aria-hidden="true"></i>
           <span>Esci</span>
@@ -70,6 +74,18 @@
         <button class="admin-nav-item" type="button" data-panel="recensioni">
           <i class="bx bx-message-square-dots" aria-hidden="true"></i>
           <span>Recensioni</span>
+        </button>
+        <button class="admin-nav-item" type="button" data-panel="social">
+          <i class="bx bx-link" aria-hidden="true"></i>
+          <span>Social &amp; Link</span>
+        </button>
+        <button class="admin-nav-item" type="button" data-panel="foto">
+          <i class="bx bx-images" aria-hidden="true"></i>
+          <span>Foto</span>
+        </button>
+        <button class="admin-nav-item" type="button" data-panel="pulsanti">
+          <i class="bx bx-pointer" aria-hidden="true"></i>
+          <span>Pulsanti</span>
         </button>
       </aside>
 
@@ -100,6 +116,23 @@
           </div>
 
           <p class="admin-note" id="overviewNote"></p>
+
+          <!-- BANNER DI MANUTENZIONE -->
+          <div class="admin-card">
+            <div class="admin-card-head">
+              <div>
+                <h2 class="admin-subtitle">Banner di manutenzione</h2>
+                <p class="admin-card-text">
+                  Mostra un banner lime sotto la navbar della Home con l'avviso di manutenzione e il collegamento WhatsApp.
+                </p>
+              </div>
+              <label class="admin-switch" title="Mostra o nascondi il banner">
+                <input type="checkbox" data-setting="maintenance.on" id="maintenanceToggle" />
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+              </label>
+            </div>
+            <p class="admin-form-status" id="maintenanceStatus" role="status" aria-live="polite"></p>
+          </div>
         </section>
 
         <!-- RECENSIONI -->
@@ -163,6 +196,251 @@
 
           <!-- LISTA -->
           <div class="admin-list" id="reviewsList"></div>
+        </section>
+
+        <!-- SOCIAL & LINK -->
+        <section class="admin-panel" id="panel-social">
+          <h1 class="admin-panel-title">Social &amp; Link</h1>
+          <p class="admin-panel-sub">
+            Gestisci i profili mostrati nel footer, nella sezione "Seguimi". Con il toggle spento l'icona sparisce dal sito.
+          </p>
+
+          <div class="admin-form admin-settings-form" data-settings-form="social">
+            <div class="admin-social-row">
+              <span class="admin-social-name"><i class="bx bxl-instagram" aria-hidden="true"></i> Instagram</span>
+              <input type="text" data-setting="social.instagram.url" placeholder="https://instagram.com/..." autocomplete="off" />
+              <label class="admin-switch" title="Mostra nel footer">
+                <input type="checkbox" data-setting="social.instagram.on" />
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+              </label>
+            </div>
+
+            <div class="admin-social-row">
+              <span class="admin-social-name"><i class="bx bxl-tiktok" aria-hidden="true"></i> TikTok</span>
+              <input type="text" data-setting="social.tiktok.url" placeholder="https://tiktok.com/@..." autocomplete="off" />
+              <label class="admin-switch" title="Mostra nel footer">
+                <input type="checkbox" data-setting="social.tiktok.on" />
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+              </label>
+            </div>
+
+            <div class="admin-social-row">
+              <span class="admin-social-name"><i class="bx bxl-facebook" aria-hidden="true"></i> Facebook</span>
+              <input type="text" data-setting="social.facebook.url" placeholder="https://facebook.com/..." autocomplete="off" />
+              <label class="admin-switch" title="Mostra nel footer">
+                <input type="checkbox" data-setting="social.facebook.on" />
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+              </label>
+            </div>
+
+            <div class="admin-social-row">
+              <span class="admin-social-name"><i class="bx bxl-youtube" aria-hidden="true"></i> YouTube</span>
+              <input type="text" data-setting="social.youtube.url" placeholder="https://youtube.com/@..." autocomplete="off" />
+              <label class="admin-switch" title="Mostra nel footer">
+                <input type="checkbox" data-setting="social.youtube.on" />
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+              </label>
+            </div>
+
+            <div class="admin-social-row">
+              <span class="admin-social-name"><i class="bx bxl-whatsapp" aria-hidden="true"></i> WhatsApp</span>
+              <input type="text" data-setting="social.whatsapp.url" placeholder="https://wa.me/39..." autocomplete="off" />
+              <label class="admin-switch" title="Mostra nel footer">
+                <input type="checkbox" data-setting="social.whatsapp.on" />
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+              </label>
+            </div>
+
+            <div class="admin-social-row">
+              <span class="admin-social-name"><i class="bx bx-envelope" aria-hidden="true"></i> Email</span>
+              <input type="text" data-setting="social.email.url" placeholder="indirizzo@email.it" autocomplete="off" />
+              <label class="admin-switch" title="Mostra nel footer">
+                <input type="checkbox" data-setting="social.email.on" />
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+              </label>
+            </div>
+
+            <div class="admin-social-row">
+              <span class="admin-social-name"><i class="bx bx-globe" aria-hidden="true"></i> Recensioni Google</span>
+              <input type="text" data-setting="social.google.url" placeholder="https://g.page/..." autocomplete="off" />
+              <label class="admin-switch" title="Mostra nel footer">
+                <input type="checkbox" data-setting="social.google.on" />
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+              </label>
+            </div>
+
+            <h2 class="admin-subtitle admin-subtitle-spaced">Facebook Pixel</h2>
+            <div class="admin-social-row">
+              <span class="admin-social-name"><i class="bx bxl-meta" aria-hidden="true"></i> ID Pixel</span>
+              <input type="text" data-setting="pixel.id" placeholder="123456789012345" autocomplete="off" />
+              <label class="admin-switch" title="Attiva il tracciamento">
+                <input type="checkbox" data-setting="pixel.on" />
+                <span class="admin-switch-ui" aria-hidden="true"></span>
+              </label>
+            </div>
+
+            <div class="admin-form-actions">
+              <button class="btn btn-primary" type="button" data-save-settings="social">
+                <i class="bx bx-save" aria-hidden="true"></i>
+                <span>Salva</span>
+              </button>
+              <span class="admin-form-status" data-settings-status="social" role="status" aria-live="polite"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOTO -->
+        <section class="admin-panel" id="panel-foto">
+          <h1 class="admin-panel-title">Foto</h1>
+          <p class="admin-panel-sub">
+            Aggiorna i collegamenti delle immagini della Home. Puoi usare un percorso locale (foto1.png) o un indirizzo completo.
+          </p>
+
+          <div class="admin-form admin-settings-form" data-settings-form="foto">
+            <div class="admin-image-row">
+              <label class="admin-field">
+                <span>Logo navbar</span>
+                <input type="text" data-setting="images.logo" placeholder="logo.png" autocomplete="off" />
+              </label>
+              <div class="admin-image-previews">
+                <figure><img data-preview="images.logo" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
+                <figure><img data-preview-typed="images.logo" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
+              </div>
+            </div>
+
+            <div class="admin-image-row">
+              <label class="admin-field">
+                <span>Hero — atleta</span>
+                <input type="text" data-setting="images.hero" placeholder="foto 2.png" autocomplete="off" />
+              </label>
+              <div class="admin-image-previews">
+                <figure><img data-preview="images.hero" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
+                <figure><img data-preview-typed="images.hero" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
+              </div>
+            </div>
+
+            <div class="admin-image-row">
+              <label class="admin-field">
+                <span>Sezione "Il problema"</span>
+                <input type="text" data-setting="images.problema" placeholder="gif1.webp" autocomplete="off" />
+              </label>
+              <div class="admin-image-previews">
+                <figure><img data-preview="images.problema" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
+                <figure><img data-preview-typed="images.problema" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
+              </div>
+            </div>
+
+            <div class="admin-image-row">
+              <label class="admin-field">
+                <span>Sezione "Chi sono" — prima foto</span>
+                <input type="text" data-setting="images.chiSono" placeholder="https://..." autocomplete="off" />
+              </label>
+              <div class="admin-image-previews">
+                <figure><img data-preview="images.chiSono" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
+                <figure><img data-preview-typed="images.chiSono" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
+              </div>
+            </div>
+
+            <div class="admin-image-row">
+              <label class="admin-field">
+                <span>Sezione "Chi sono" — seconda foto (slideshow)</span>
+                <input type="text" data-setting="images.chiSono2" placeholder="foto1.png" autocomplete="off" />
+              </label>
+              <div class="admin-image-previews">
+                <figure><img data-preview="images.chiSono2" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
+                <figure><img data-preview-typed="images.chiSono2" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
+              </div>
+            </div>
+
+            <div class="admin-image-row">
+              <label class="admin-field">
+                <span>Sezione "Metodo" — atleta</span>
+                <input type="text" data-setting="images.metodo" placeholder="foto1.png" autocomplete="off" />
+              </label>
+              <div class="admin-image-previews">
+                <figure><img data-preview="images.metodo" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
+                <figure><img data-preview-typed="images.metodo" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
+              </div>
+            </div>
+
+            <div class="admin-image-row">
+              <label class="admin-field">
+                <span>Logo footer</span>
+                <input type="text" data-setting="images.logoFooter" placeholder="logo 2.png" autocomplete="off" />
+              </label>
+              <div class="admin-image-previews">
+                <figure><img data-preview="images.logoFooter" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
+                <figure><img data-preview-typed="images.logoFooter" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
+              </div>
+            </div>
+
+            <div class="admin-form-actions">
+              <button class="btn btn-primary" type="button" data-save-settings="foto">
+                <i class="bx bx-save" aria-hidden="true"></i>
+                <span>Salva</span>
+              </button>
+              <span class="admin-form-status" data-settings-status="foto" role="status" aria-live="polite"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- PULSANTI -->
+        <section class="admin-panel" id="panel-pulsanti">
+          <h1 class="admin-panel-title">Pulsanti</h1>
+          <p class="admin-panel-sub">
+            Imposta la destinazione dei pulsanti del sito: un indirizzo email (diventa mailto:) oppure un link WhatsApp.
+            Il testo e lo stile dei pulsanti non cambiano.
+          </p>
+
+          <div class="admin-form admin-settings-form" data-settings-form="pulsanti">
+            <div class="admin-button-row">
+              <label class="admin-field">
+                <span>Prenota la tua prima sessione gratuita</span>
+                <input type="text" data-setting="buttons.prenota" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+              </label>
+              <p class="admin-current" data-current="buttons.prenota"></p>
+            </div>
+
+            <div class="admin-button-row">
+              <label class="admin-field">
+                <span>Hai una domanda? Contattami</span>
+                <input type="text" data-setting="buttons.domanda" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+              </label>
+              <p class="admin-current" data-current="buttons.domanda"></p>
+            </div>
+
+            <div class="admin-button-row">
+              <label class="admin-field">
+                <span>Prenota ora</span>
+                <input type="text" data-setting="buttons.prenotaOra" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+              </label>
+              <p class="admin-current" data-current="buttons.prenotaOra"></p>
+            </div>
+
+            <div class="admin-button-row">
+              <label class="admin-field">
+                <span>Richiedi il percorso</span>
+                <input type="text" data-setting="buttons.percorso" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+              </label>
+              <p class="admin-current" data-current="buttons.percorso"></p>
+            </div>
+
+            <div class="admin-button-row">
+              <label class="admin-field">
+                <span>Sessione gratuita</span>
+                <input type="text" data-setting="buttons.sessione" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+              </label>
+              <p class="admin-current" data-current="buttons.sessione"></p>
+            </div>
+
+            <div class="admin-form-actions">
+              <button class="btn btn-primary" type="button" data-save-settings="pulsanti">
+                <i class="bx bx-save" aria-hidden="true"></i>
+                <span>Salva</span>
+              </button>
+              <span class="admin-form-status" data-settings-status="pulsanti" role="status" aria-live="polite"></span>
+            </div>
+          </div>
         </section>
 
       </main>

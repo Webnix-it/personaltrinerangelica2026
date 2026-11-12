@@ -745,18 +745,25 @@
     const img = $('img', frame);
     if (!img) return;
 
-    const sources = (frame.dataset.photos || '')
-      .split(',')
-      .map(function (src) { return src.trim(); })
-      .filter(Boolean);
+    /* Rilette a ogni cambio: la Dashboard può aggiornare le foto
+       anche dopo il caricamento della pagina. */
+    function getSources() {
+      return (frame.dataset.photos || '')
+        .split(',')
+        .map(function (src) { return src.trim(); })
+        .filter(Boolean);
+    }
 
-    if (sources.length < 2) return;
+    if (getSources().length < 2) return;
 
     let index = 0;
     let busy = false;
 
     window.setInterval(function () {
       if (busy) return;
+
+      const sources = getSources();
+      if (sources.length < 2) return;
 
       busy = true;
       index = (index + 1) % sources.length;
@@ -782,6 +789,159 @@
   }
 
   /* ==========================================================
+     12. IMPOSTAZIONI DALLA DASHBOARD
+     ----------------------------------------------------------
+     Social, immagini, collegamenti dei pulsanti, banner di
+     manutenzione e Facebook Pixel arrivano da Firestore
+     (settings/site) e vengono applicati senza toccare l'HTML.
+     ========================================================== */
+  const LINK_KEYS = {
+    prenota: 'prenota',
+    domanda: 'domanda',
+    'prenota-ora': 'prenotaOra',
+    percorso: 'percorso',
+    sessione: 'sessione',
+  };
+
+  function normalizeLink(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return '';
+    if (/^(https?:|mailto:|tel:)/i.test(raw)) return raw;
+    if (raw.indexOf('@') !== -1) return 'mailto:' + raw;
+    if (/^[\d\s()+.-]+$/.test(raw)) return 'https://wa.me/' + raw.replace(/\D/g, '');
+    return raw;
+  }
+
+  function applySocial(social) {
+    if (!social) return;
+
+    $$('[data-social]').forEach(function (link) {
+      const config = social[link.getAttribute('data-social')];
+      if (!config || typeof config !== 'object') return;
+
+      const visible = config.on !== false;
+      link.hidden = !visible;
+      link.style.display = visible ? '' : 'none';
+
+      if (!config.url) return;
+
+      const href = normalizeLink(config.url);
+      link.setAttribute('href', href);
+
+      if (/^mailto:/i.test(href)) {
+        link.removeAttribute('target');
+        link.removeAttribute('rel');
+      } else {
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
+      }
+    });
+  }
+
+  function applyButtons(buttons) {
+    if (!buttons) return;
+
+    $$('[data-link]').forEach(function (element) {
+      const key = LINK_KEYS[element.getAttribute('data-link')];
+      const value = key ? buttons[key] : '';
+      if (!value) return;
+
+      const href = normalizeLink(value);
+      element.setAttribute('href', href);
+
+      if (/^https?:/i.test(href)) {
+        element.setAttribute('target', '_blank');
+        element.setAttribute('rel', 'noopener noreferrer');
+      } else {
+        element.removeAttribute('target');
+      }
+    });
+  }
+
+  function applyImages(images) {
+    if (!images) return;
+
+    $$('[data-image]').forEach(function (img) {
+      const value = images[img.getAttribute('data-image')];
+      if (value) img.src = value;
+    });
+
+    const frame = $('.about-image');
+    if (!frame) return;
+
+    const current = (frame.dataset.photos || '').split(',').map(function (src) { return src.trim(); });
+    const first = images.chiSono || current[0] || '';
+    const second = images.chiSono2 || current[1] || '';
+    const list = [first, second].filter(Boolean);
+
+    if (!list.length) return;
+
+    frame.dataset.photos = list.join(',');
+
+    const img = $('img', frame);
+    if (img && images.chiSono) img.src = images.chiSono;
+  }
+
+  function applyMaintenance(maintenance, social) {
+    const banner = $('#maintenanceBanner');
+    if (!banner) return;
+
+    const on = Boolean(maintenance && maintenance.on);
+    banner.hidden = !on;
+    document.body.classList.toggle('has-maintenance', on);
+
+    const wa = $('#maintenanceWa');
+    const url = social && social.whatsapp && social.whatsapp.url;
+    if (wa && url) wa.setAttribute('href', normalizeLink(url));
+  }
+
+  function applyPixel(pixel) {
+    if (!pixel || !pixel.on) return;
+
+    const id = String(pixel.id || '').trim();
+    if (!/^\d{6,}$/.test(id) || window.fbq) return;
+
+    /* Codice ufficiale Meta, ridotto al minimo. */
+    (function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () {
+        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = true;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = true;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s);
+    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+    window.fbq('init', id);
+    window.fbq('track', 'PageView');
+  }
+
+  function initSiteSettings() {
+    if (!window.SiteFirebase || !window.SiteFirebase.isConfigured()) return;
+
+    window.SiteFirebase.subscribeSettings(
+      function (settings) {
+        settings = settings || {};
+        applySocial(settings.social);
+        applyButtons(settings.buttons);
+        applyImages(settings.images);
+        applyMaintenance(settings.maintenance, settings.social);
+        applyPixel(settings.pixel);
+      },
+      function () {
+        /* Firebase non raggiungibile: resta il contenuto statico della pagina. */
+      }
+    );
+  }
+
+  /* ==========================================================
      BOOT
      ========================================================== */
   function init() {
@@ -796,6 +956,7 @@
     initNavQuick();
     initHeroTyping();
     initAboutSlideshow();
+    initSiteSettings();
   }
 
   if (document.readyState === 'loading') {
