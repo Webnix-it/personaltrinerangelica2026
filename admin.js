@@ -454,14 +454,34 @@
 
   /* Valori usati finché la sezione non è mai stata salvata. */
   var SETTING_DEFAULTS = {
-    'images.logo': 'logo.png',
-    'images.hero': 'foto 2.png',
-    'images.problema': 'gif1.webp',
     'images.chiSono': 'https://ricomincia-angelica.higgsfield.app/ricomincia/assets/angelica-professionale.webp',
     'images.chiSono2': 'foto1.png',
     'images.metodo': 'foto1.png',
-    'images.logoFooter': 'logo 2.png',
   };
+
+  /* Trasforma quello che scrive l'utente in un collegamento vero:
+     email → mailto:, numero → wa.me, URL → così com'è. */
+  function normalizeLink(value) {
+    var raw = String(value || '').trim();
+    if (!raw) return '';
+    if (/^(https?:|mailto:|tel:)/i.test(raw)) return raw;
+    if (raw.indexOf('@') !== -1) return 'mailto:' + raw;
+    if (/^[\d\s()+.-]+$/.test(raw)) return 'https://wa.me/' + raw.replace(/\D/g, '');
+    return raw;
+  }
+
+  /* Anteprima dei pulsanti: usa il valore digitato nel campo. */
+  function updateButtonPreviews() {
+    $$('[data-button-preview]').forEach(function (link) {
+      var path = link.getAttribute('data-button-preview');
+      var input = $('[data-setting="' + path + '"]');
+      var value = input ? input.value.trim() : '';
+      var href = normalizeLink(value);
+
+      link.setAttribute('href', href || '#');
+      link.title = value ? href : 'Nessun collegamento impostato: resta quello predefinito del sito.';
+    });
+  }
 
   function getPath(object, path) {
     return path.split('.').reduce(function (value, key) {
@@ -519,6 +539,7 @@
 
     updatePreviews();
     updateCurrentLinks();
+    updateButtonPreviews();
   }
 
   function startSettings() {
@@ -545,6 +566,8 @@
         var value = input.value.trim();
         if (value) img.src = value;
       });
+
+      updateButtonPreviews();
     });
   });
 
@@ -585,6 +608,7 @@
 
           updatePreviews();
           updateCurrentLinks();
+          updateButtonPreviews();
           toast('Impostazioni salvate.');
         })
         .catch(function (error) {
@@ -600,6 +624,7 @@
   /* Mostra subito le anteprime predefinite, prima del login. */
   updatePreviews();
   updateCurrentLinks();
+  updateButtonPreviews();
 
   /* Banner di manutenzione: il toggle salva subito. */
   var maintenanceToggle = $('#maintenanceToggle');

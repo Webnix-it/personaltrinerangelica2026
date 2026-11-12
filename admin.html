@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=3" />
 </head>
 <body class="admin-body">
 
@@ -299,39 +299,6 @@
           <div class="admin-form admin-settings-form" data-settings-form="foto">
             <div class="admin-image-row">
               <label class="admin-field">
-                <span>Logo navbar</span>
-                <input type="text" data-setting="images.logo" placeholder="logo.png" autocomplete="off" />
-              </label>
-              <div class="admin-image-previews">
-                <figure><img data-preview="images.logo" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
-                <figure><img data-preview-typed="images.logo" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
-              </div>
-            </div>
-
-            <div class="admin-image-row">
-              <label class="admin-field">
-                <span>Hero — atleta</span>
-                <input type="text" data-setting="images.hero" placeholder="foto 2.png" autocomplete="off" />
-              </label>
-              <div class="admin-image-previews">
-                <figure><img data-preview="images.hero" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
-                <figure><img data-preview-typed="images.hero" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
-              </div>
-            </div>
-
-            <div class="admin-image-row">
-              <label class="admin-field">
-                <span>Sezione "Il problema"</span>
-                <input type="text" data-setting="images.problema" placeholder="gif1.webp" autocomplete="off" />
-              </label>
-              <div class="admin-image-previews">
-                <figure><img data-preview="images.problema" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
-                <figure><img data-preview-typed="images.problema" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
-              </div>
-            </div>
-
-            <div class="admin-image-row">
-              <label class="admin-field">
                 <span>Sezione "Chi sono" — prima foto</span>
                 <input type="text" data-setting="images.chiSono" placeholder="https://..." autocomplete="off" />
               </label>
@@ -363,17 +330,6 @@
               </div>
             </div>
 
-            <div class="admin-image-row">
-              <label class="admin-field">
-                <span>Logo footer</span>
-                <input type="text" data-setting="images.logoFooter" placeholder="logo 2.png" autocomplete="off" />
-              </label>
-              <div class="admin-image-previews">
-                <figure><img data-preview="images.logoFooter" alt="Immagine attuale" /><figcaption>Attuale</figcaption></figure>
-                <figure><img data-preview-typed="images.logoFooter" alt="Nuova immagine" /><figcaption>Nuova</figcaption></figure>
-              </div>
-            </div>
-
             <div class="admin-form-actions">
               <button class="btn btn-primary" type="button" data-save-settings="foto">
                 <i class="bx bx-save" aria-hidden="true"></i>
@@ -394,43 +350,81 @@
 
           <div class="admin-form admin-settings-form" data-settings-form="pulsanti">
             <div class="admin-button-row">
-              <label class="admin-field">
-                <span>Prenota la tua prima sessione gratuita</span>
-                <input type="text" data-setting="buttons.prenota" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
-              </label>
-              <p class="admin-current" data-current="buttons.prenota"></p>
+              <div class="admin-button-main">
+                <label class="admin-field">
+                  <span>Prenota la tua prima sessione gratuita</span>
+                  <input type="text" data-setting="buttons.prenota" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+                </label>
+                <p class="admin-current" data-current="buttons.prenota"></p>
+              </div>
+              <div class="admin-button-preview">
+                <span class="admin-preview-label">Anteprima</span>
+                <a class="btn btn-primary btn-big" data-button-preview="buttons.prenota" href="#" tabindex="-1" aria-hidden="true">
+                  <i class="bx bx-calendar" aria-hidden="true"></i>
+                  Prenota la tua prima sessione gratuita
+                </a>
+              </div>
             </div>
 
             <div class="admin-button-row">
-              <label class="admin-field">
-                <span>Hai una domanda? Contattami</span>
-                <input type="text" data-setting="buttons.domanda" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
-              </label>
-              <p class="admin-current" data-current="buttons.domanda"></p>
+              <div class="admin-button-main">
+                <label class="admin-field">
+                  <span>Hai una domanda? Contattami</span>
+                  <input type="text" data-setting="buttons.domanda" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+                </label>
+                <p class="admin-current" data-current="buttons.domanda"></p>
+              </div>
+              <div class="admin-button-preview">
+                <span class="admin-preview-label">Anteprima</span>
+                <a class="faq-cta" data-button-preview="buttons.domanda" href="#" tabindex="-1" aria-hidden="true">
+                  <i class="bx bx-message-rounded-dots" aria-hidden="true"></i>
+                  hai una domanda? contattami
+                </a>
+              </div>
             </div>
 
             <div class="admin-button-row">
-              <label class="admin-field">
-                <span>Prenota ora</span>
-                <input type="text" data-setting="buttons.prenotaOra" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
-              </label>
-              <p class="admin-current" data-current="buttons.prenotaOra"></p>
+              <div class="admin-button-main">
+                <label class="admin-field">
+                  <span>Prenota ora</span>
+                  <input type="text" data-setting="buttons.prenotaOra" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+                </label>
+                <p class="admin-current" data-current="buttons.prenotaOra"></p>
+              </div>
+              <div class="admin-button-preview">
+                <span class="admin-preview-label">Anteprima</span>
+                <a class="personalized-cta" data-button-preview="buttons.prenotaOra" href="#" tabindex="-1" aria-hidden="true">
+                  <span class="hover-underline-animation">Prenota ora</span>
+                </a>
+              </div>
             </div>
 
             <div class="admin-button-row">
-              <label class="admin-field">
-                <span>Richiedi il percorso</span>
-                <input type="text" data-setting="buttons.percorso" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
-              </label>
-              <p class="admin-current" data-current="buttons.percorso"></p>
+              <div class="admin-button-main">
+                <label class="admin-field">
+                  <span>Richiedi il percorso</span>
+                  <input type="text" data-setting="buttons.percorso" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+                </label>
+                <p class="admin-current" data-current="buttons.percorso"></p>
+              </div>
+              <div class="admin-button-preview">
+                <span class="admin-preview-label">Anteprima</span>
+                <a class="btn btn-primary btn-block" data-button-preview="buttons.percorso" href="#" tabindex="-1" aria-hidden="true">Richiedi il percorso</a>
+              </div>
             </div>
 
             <div class="admin-button-row">
-              <label class="admin-field">
-                <span>Sessione gratuita</span>
-                <input type="text" data-setting="buttons.sessione" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
-              </label>
-              <p class="admin-current" data-current="buttons.sessione"></p>
+              <div class="admin-button-main">
+                <label class="admin-field">
+                  <span>Sessione gratuita</span>
+                  <input type="text" data-setting="buttons.sessione" placeholder="https://wa.me/39... oppure email" autocomplete="off" />
+                </label>
+                <p class="admin-current" data-current="buttons.sessione"></p>
+              </div>
+              <div class="admin-button-preview">
+                <span class="admin-preview-label">Anteprima</span>
+                <a class="nav-cta" data-button-preview="buttons.sessione" href="#" tabindex="-1" aria-hidden="true">Sessione gratuita</a>
+              </div>
             </div>
 
             <div class="admin-form-actions">
@@ -461,8 +455,8 @@
 
   <div class="admin-toast" id="adminToast" role="status" aria-live="polite"></div>
 
-  <script src="firebase-config.js"></script>
-  <script src="firebase-site.js"></script>
-  <script src="admin.js"></script>
+  <script src="firebase-config.js?v=3"></script>
+  <script src="firebase-site.js?v=3"></script>
+  <script src="admin.js?v=3"></script>
 </body>
 </html>

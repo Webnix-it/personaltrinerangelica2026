@@ -1856,11 +1856,33 @@ html { scrollbar-width: thin; scrollbar-color: rgba(183, 243, 74, 0.6) #141715; 
   text-transform: uppercase; color: var(--gray);
 }
 
-.admin-button-row { padding: 14px 0; border-bottom: 1px solid rgba(183, 243, 74, 0.1); }
+.admin-button-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 24px; align-items: start;
+  padding: 16px 0; border-bottom: 1px solid rgba(183, 243, 74, 0.1);
+}
 .admin-button-row .admin-field { margin-bottom: 6px; }
 .admin-current { font-size: 0.78rem; color: var(--gray); word-break: break-all; }
 
+/* Anteprima del pulsante: stessa grafica della Home */
+.admin-button-preview {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  padding: 12px; border-radius: 14px;
+  background: rgba(23, 26, 24, 0.6); border: 1px dashed rgba(183, 243, 74, 0.22);
+  overflow: hidden;
+}
+.admin-preview-label {
+  font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray);
+}
+.admin-button-preview > a { pointer-events: none; max-width: 100%; }
+.admin-button-preview .btn-block { width: 100%; }
+.admin-button-preview .btn-big { font-size: 0.82rem; padding: 14px 16px; line-height: 1.35; }
+.admin-button-preview .faq-cta,
+.admin-button-preview .personalized-cta { font-size: 0.9rem; }
+.admin-button-preview .nav-cta { display: inline-flex; }
+
 @media (max-width: 900px) {
+  .admin-button-row { grid-template-columns: 1fr; gap: 12px; }
   .admin-social-row { grid-template-columns: 150px minmax(0, 1fr) 46px; gap: 12px; }
   .admin-image-row { grid-template-columns: 1fr; }
   .admin-image-previews img { width: 96px; height: 66px; }
