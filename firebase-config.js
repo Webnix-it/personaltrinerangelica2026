@@ -22,7 +22,7 @@ window.FIREBASE_CONFIG = {
 /* Email autorizzate ad amministrare il sito.
    Devono essere identiche a quelle elencate nella funzione
    isAdmin() di regolefirebase.txt. */
-window.ADMIN_EMAILS = ['angelicafrascarolopt@gmail.com'];
+window.ADMIN_EMAILS = ['ivanemia0@gmail.com'];
 
 /* Nome della raccolta Firestore che contiene le recensioni. */
 window.REVIEWS_COLLECTION = 'reviews';
