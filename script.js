@@ -135,7 +135,8 @@
 
     const links = new Map();
 
-    $$('a[href^="#"]', navLinks).forEach(function (link) {
+    // Solo le voci principali: le scorciatoie del menu rapido restano escluse
+    $$(':scope > a[href^="#"]', navLinks).forEach(function (link) {
       const id = link.getAttribute('href').slice(1);
       if (id) links.set(id, link);
     });
@@ -607,6 +608,157 @@
   }
 
   /* ==========================================================
+     9. NAV — icona con il menu rapido delle scorciatoie
+     ========================================================== */
+  function initNavQuick() {
+    const quick = document.getElementById('navQuick');
+    if (!quick) return;
+
+    const toggle = $('.nav-quick-toggle', quick);
+    const menu = $('.nav-quick-menu', quick);
+    if (!toggle || !menu) return;
+
+    function setOpen(open) {
+      quick.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    }
+
+    // Click sull'icona: utile con la tastiera; il mouse apre già in hover
+    toggle.addEventListener('click', function (event) {
+      event.stopPropagation();
+      setOpen(!quick.classList.contains('is-open'));
+    });
+
+    menu.addEventListener('click', function (event) {
+      if (event.target.closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!quick.contains(event.target)) setOpen(false);
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') setOpen(false);
+    });
+  }
+
+  /* ==========================================================
+     10. HERO — il titolo viene "scritto" carattere per carattere
+     ========================================================== */
+  function initHeroTyping() {
+    const typed = $('.af-hero h1 .typed');
+    if (!typed) return;
+
+    const chars = [];
+
+    try {
+      $$('.typed-line', typed).forEach(function (line) {
+        const walker = document.createTreeWalker(line, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+
+        nodes.forEach(function (node) {
+          const text = node.nodeValue;
+          if (!text) return;
+
+          const frag = document.createDocumentFragment();
+          for (let i = 0; i < text.length; i++) {
+            const ch = document.createElement('span');
+            ch.className = 'ch';
+            chars.push(ch);
+            ch.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+            frag.appendChild(ch);
+          }
+          node.parentNode.replaceChild(frag, node);
+        });
+      });
+    } catch (error) {
+      return;
+    }
+
+    if (!chars.length) return;
+
+    /* Cursore lime: si sposta davanti al carattere successivo mentre scrive */
+    const caret = document.createElement('span');
+    caret.className = 'typed-caret';
+    caret.setAttribute('aria-hidden', 'true');
+
+    typed.classList.add('is-armed');
+    chars[0].parentNode.insertBefore(caret, chars[0]);
+
+    const STEP = 46;   // intervallo tra un carattere e il successivo
+    const START = 380; // breve pausa prima di iniziare a scrivere
+    let shown = 0;
+
+    function typeNext() {
+      if (shown >= chars.length) {
+        window.setTimeout(function () {
+          caret.remove();
+        }, 2400);
+        return;
+      }
+
+      chars[shown].classList.add('is-on');
+      shown++;
+
+      const last = chars[shown - 1];
+      const next = chars[shown];
+      if (next) next.parentNode.insertBefore(caret, next);
+      else last.parentNode.insertBefore(caret, last.nextSibling);
+
+      window.setTimeout(typeNext, STEP);
+    }
+
+    window.setTimeout(typeNext, START);
+  }
+
+  /* ==========================================================
+     11. CHI SONO — la foto cambia ogni 3 secondi
+     ========================================================== */
+  function initAboutSlideshow() {
+    const frame = $('.about-image');
+    if (!frame) return;
+
+    const img = $('img', frame);
+    if (!img) return;
+
+    const sources = (frame.dataset.photos || '')
+      .split(',')
+      .map(function (src) { return src.trim(); })
+      .filter(Boolean);
+
+    if (sources.length < 2) return;
+
+    let index = 0;
+    let busy = false;
+
+    window.setInterval(function () {
+      if (busy) return;
+
+      busy = true;
+      index = (index + 1) % sources.length;
+
+      const next = new Image();
+
+      next.onload = function () {
+        img.classList.add('is-fading');
+
+        window.setTimeout(function () {
+          img.src = next.src;
+          img.classList.remove('is-fading');
+          busy = false;
+        }, 320);
+      };
+
+      next.onerror = function () {
+        busy = false;
+      };
+
+      next.src = sources[index];
+    }, 3000);
+  }
+
+  /* ==========================================================
      BOOT
      ========================================================== */
   function init() {
@@ -618,6 +770,9 @@
     initServiceCards();
     initMortalityChart();
     initWhoToggle();
+    initNavQuick();
+    initHeroTyping();
+    initAboutSlideshow();
   }
 
   if (document.readyState === 'loading') {
